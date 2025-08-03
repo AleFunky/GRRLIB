@@ -98,6 +98,8 @@ typedef  struct GRRLIB_drawSettings {
     bool              antialias;    /**< AntiAlias is enabled when set to true. */
     GRRLIB_blendMode  blend;        /**< Blending Mode.                         */
     int               lights;       /**< Active lights.                         */
+    int width;
+    int height;
 } GRRLIB_drawSettings;
 
 //------------------------------------------------------------------------------

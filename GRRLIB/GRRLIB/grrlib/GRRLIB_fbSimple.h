@@ -24,14 +24,14 @@ THE SOFTWARE.
  * @file GRRLIB_fbSimple.h
  * Inline functions for primitive point and line drawing.
  */
-
+extern GRRLIB_drawSettings GRRLIB_Settings;
 /**
  * Clear screen with a specific color.
  * @param color The color to use to fill the screen.
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f, rmode->xfbHeight + 80.0f, color, true);
+    GRRLIB_Rectangle(-40.0f, -40.0f, GRRLIB_Settings.width + 80.0f,  GRRLIB_Settings.height + 80.0f, color, true);
 }
 
 /**

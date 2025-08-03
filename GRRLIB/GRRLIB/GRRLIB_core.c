@@ -178,8 +178,17 @@ int  GRRLIB_Init (void) {
     guMtxIdentity(GXmodelView2D);
     guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0f, 0.0f, -100.0f);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
-
-    guOrtho(perspective, 0.0f, rmode->efbHeight, 0.0f, rmode->fbWidth, 0.0f, 1000.0f);
+    f32 vcorrection = (rmode->xfbHeight-426)/2; //fudge factor
+    f32 hcorrection = 0.0f;
+    
+    if( CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
+        hcorrection = (rmode->xfbHeight-(9.0f*rmode->xfbHeight/16.0f))/2;
+    }
+    
+    GRRLIB_Settings.width = rmode->fbWidth + 2 * hcorrection;
+    GRRLIB_Settings.height = rmode->xfbHeight + 2 * vcorrection;
+    guOrtho(perspective,0.0f,rmode->xfbHeight+vcorrection*2,
+    0.0f,rmode->fbWidth+hcorrection*2,0.0f,300.0f); //tblr
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
     GX_SetViewport(0.0f, 0.0f, rmode->fbWidth, rmode->efbHeight, 0.0f, 1.0f);
