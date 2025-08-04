@@ -72,6 +72,7 @@ int  GRRLIB_Init (void) {
     // Video Mode Correction
     switch (rmode->viTVMode) {
         case VI_DEBUG_PAL:  // PAL 50hz 576i
+        case VI_TVMODE_PAL_PROG:
             //rmode = &TVPal574IntDfScale;
             rmode = &TVPal528IntDf; // BC ...this is still wrong, but "less bad" for now
             break;
@@ -120,7 +121,7 @@ int  GRRLIB_Init (void) {
     VIDEO_Flush();                      // flush the frame to the TV
     VIDEO_WaitVSync();                  // Wait for the TV to finish updating
     // If the TV image is interlaced it takes two passes to display the image
-    if (rmode->viTVMode & VI_NON_INTERLACE) {
+    if (rmode->field_rendering) {
         VIDEO_WaitVSync();
     }
 
@@ -178,7 +179,12 @@ int  GRRLIB_Init (void) {
     guMtxIdentity(GXmodelView2D);
     guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0f, 0.0f, -100.0f);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
-    f32 vcorrection = (rmode->xfbHeight-426)/2; //fudge factor
+
+    int correction_number = 426;
+    if ((rmode->viTVMode >> 2) == VI_PAL) {
+        correction_number = 578;
+    }
+    f32 vcorrection = (rmode->xfbHeight-correction_number)/2; //fudge factor
     f32 hcorrection = 0.0f;
     
     if( CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
