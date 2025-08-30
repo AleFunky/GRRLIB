@@ -180,21 +180,22 @@ int  GRRLIB_Init (void) {
     guMtxTransApply(GXmodelView2D, GXmodelView2D, 0.0f, 0.0f, -100.0f);
     GX_LoadPosMtxImm(GXmodelView2D, GX_PNMTX0);
 
-    int correction_number = 426;
-    if ((rmode->viTVMode >> 2) == VI_PAL) {
-        correction_number = 578;
-    }
-    f32 vcorrection = (rmode->xfbHeight-correction_number)/2; //fudge factor
-    f32 hcorrection = 0.0f;
+
+    f32 aspect = (CONF_GetAspectRatio() == CONF_ASPECT_16_9) ? (16.0f/9.0f) : (4.0f/3.0f);
+    f32 screen_aspect = (f32)rmode->fbWidth / (f32)rmode->xfbHeight;
+
+    // scale width to match target aspect
+    f32 hscale = aspect / screen_aspect;
+
+    guOrtho(perspective,
+            0.0f, rmode->xfbHeight,        // top / bottom
+            0.0f, rmode->fbWidth * hscale, // left / right
+            0.0f, 300.0f);
+
+            
+    GRRLIB_Settings.width = rmode->fbWidth * hscale;
+    GRRLIB_Settings.height = rmode->xfbHeight;
     
-    if( CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
-        hcorrection = (rmode->xfbHeight-(9.0f*rmode->xfbHeight/16.0f))/2;
-    }
-    
-    GRRLIB_Settings.width = rmode->fbWidth + 2 * hcorrection;
-    GRRLIB_Settings.height = rmode->xfbHeight + 2 * vcorrection;
-    guOrtho(perspective,0.0f,rmode->xfbHeight+vcorrection*2,
-    0.0f,rmode->fbWidth+hcorrection*2,0.0f,300.0f); //tblr
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
     GX_SetViewport(0.0f, 0.0f, rmode->fbWidth, rmode->efbHeight, 0.0f, 1.0f);
