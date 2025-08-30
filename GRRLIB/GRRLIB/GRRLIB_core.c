@@ -69,32 +69,17 @@ int  GRRLIB_Init (void) {
         return -1;
     }
 
-    // Video Mode Correction
-    switch (rmode->viTVMode) {
-        case VI_DEBUG_PAL:  // PAL 50hz 576i
-        case VI_TVMODE_PAL_PROG:
-            //rmode = &TVPal574IntDfScale;
-            rmode = &TVPal528IntDf; // BC ...this is still wrong, but "less bad" for now
-            break;
-        default:
-#ifdef HW_DOL
-            if(VIDEO_HaveComponentCable()) {
-                rmode = &TVNtsc480Prog;
-            }
-#endif
-            break;
-    }
-
-#if defined(HW_RVL)
-    // 16:9 and 4:3 Screen Adjustment for Wii
     if (CONF_GetAspectRatio() == CONF_ASPECT_16_9) {
-        rmode->viWidth = 678;
-    } else {    // 4:3
+        rmode->viWidth = (rmode->viTVMode >> 2) == VI_PAL ? 704 : 678;
+    } else {
         rmode->viWidth = 672;
     }
-    // This probably needs to consider PAL
-    rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - rmode->viWidth) / 2;
-#endif
+
+    if ((rmode->viTVMode >> 2) == VI_PAL) {
+        rmode->viXOrigin = (VI_MAX_WIDTH_PAL - rmode->viWidth) / 2;
+    } else {
+        rmode->viXOrigin = (VI_MAX_WIDTH_NTSC - rmode->viWidth) / 2;
+    }
 
 #if defined(HW_RVL)
      // Patch widescreen on Wii U
@@ -182,19 +167,17 @@ int  GRRLIB_Init (void) {
 
 
     f32 aspect = (CONF_GetAspectRatio() == CONF_ASPECT_16_9) ? (16.0f/9.0f) : (4.0f/3.0f);
-    f32 screen_aspect = (f32)rmode->fbWidth / (f32)rmode->xfbHeight;
-
-    // scale width to match target aspect
+    f32 screen_aspect = (f32)rmode->fbWidth / (f32)rmode->efbHeight;
     f32 hscale = aspect / screen_aspect;
 
     guOrtho(perspective,
-            0.0f, rmode->xfbHeight,        // top / bottom
+            0.0f, rmode->efbHeight,       // top / bottom
             0.0f, rmode->fbWidth * hscale, // left / right
             0.0f, 300.0f);
 
             
     GRRLIB_Settings.width = rmode->fbWidth * hscale;
-    GRRLIB_Settings.height = rmode->xfbHeight;
+    GRRLIB_Settings.height = rmode->efbHeight;
     
     GX_LoadProjectionMtx(perspective, GX_ORTHOGRAPHIC);
 
