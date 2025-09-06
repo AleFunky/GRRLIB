@@ -405,14 +405,12 @@ void  GRRLIB_DrawTileQuad (const guVector pos[4], GRRLIB_texImg *tex, const u32 
  * Call this function after drawing.
  */
 void  GRRLIB_Render (void) {
-    GX_DrawDone();          // Tell the GX engine we are done drawing
     GX_InvalidateTexAll();
-
-    fb ^= 1;  // Toggle framebuffer index
 
     GX_SetZMode      (GX_TRUE, GX_LEQUAL, GX_TRUE);
     GX_SetColorUpdate(GX_TRUE);
     GX_CopyDisp      (xfb[fb], GX_TRUE);
+    GX_DrawDone();          // Tell the GX engine we are done drawing
 
     VIDEO_SetNextFramebuffer(xfb[fb]);  // Select eXternal Frame Buffer
     VIDEO_Flush();                      // Flush video buffer to screen
@@ -421,4 +419,6 @@ void  GRRLIB_Render (void) {
     if (rmode->field_rendering) {
         VIDEO_WaitVSync();
     }
+
+    fb ^= 1;  // Toggle framebuffer index
 }
