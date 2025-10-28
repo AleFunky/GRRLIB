@@ -20,6 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ------------------------------------------------------------------------------*/
 
+#define _SHIFTL(v, s, w)	\
+    ((u32) (((u32)(v) & ((0x01 << (w)) - 1)) << (s)))
+#define _SHIFTR(v, s, w)	\
+    ((u32)(((u32)(v) >> (s)) & ((0x01 << (w)) - 1)))
+
 /*
  * @file GRRLIB_pixel.h
  * Inline functions for manipulating pixels in textures.
