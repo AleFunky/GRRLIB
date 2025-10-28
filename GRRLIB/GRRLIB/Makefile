@@ -8,14 +8,14 @@ $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>dev
 endif
 
 ifeq ($(PLATFORM),cube)
-include $(DEVKITPPC)/gamecube_rules
+include $(DEVKITPRO)/libogc2/gamecube_rules
 
 MACHDEP		+=	-DHW_DOL
 
 # Installation directory
 DESTDIR	:=	$(PORTLIBS_PATH)/gamecube
 else
-include $(DEVKITPPC)/wii_rules
+include $(DEVKITPRO)/libogc2/wii_rules
 
 MACHDEP		+=	-DHW_RVL
 
