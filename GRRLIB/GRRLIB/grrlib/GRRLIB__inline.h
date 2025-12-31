@@ -79,7 +79,13 @@ INLINE  void  GRRLIB_GXEngine (const guVector v[], const u32 color[],
 
 //------------------------------------------------------------------------------
 // GRRLIB_fbSimple.h -
-INLINE  void  GRRLIB_FillScreen (const u32 color);
+
+/**
+ * Clear screen with a specific color.
+ * @param color The color to use to fill the screen.
+ */
+extern void GRRLIB_FillScreen (const u32 color);
+
 INLINE  void  GRRLIB_Plot       (const f32 x,  const f32 y, const u32 color);
 INLINE  void  GRRLIB_Line       (const f32 x1, const f32 y1,
                                  const f32 x2, const f32 y2, const u32 color);
@@ -119,15 +125,15 @@ INLINE  void            GRRLIB_FreeTexture        (GRRLIB_texImg *tex);
 //==============================================================================
 // Definitions of inlined functions
 //==============================================================================
-#include <grrlib/GRRLIB_clipping.h>   // Clipping control
-#include <grrlib/GRRLIB_collision.h>  // Collision detection
-#include <grrlib/GRRLIB_fbComplex.h>  // Render to framebuffer: Complex primitives
-#include <grrlib/GRRLIB_fbGX.h>       // Render to framebuffer: Simple GX wrapper
-#include <grrlib/GRRLIB_fbSimple.h>   // Render to framebuffer: Simple primitives
-#include <grrlib/GRRLIB_handle.h>     // Texture handle manipulation
-#include <grrlib/GRRLIB_pixel.h>      // Pixel manipulation
-#include <grrlib/GRRLIB_settings.h>   // GRRLIB Settings
-#include <grrlib/GRRLIB_texSetup.h>   // Setup for textures
+#include "GRRLIB_clipping.h"   // Clipping control
+#include "GRRLIB_collision.h"  // Collision detection
+#include "GRRLIB_fbComplex.h"  // Render to framebuffer: Complex primitives
+#include "GRRLIB_fbGX.h"       // Render to framebuffer: Simple GX wrapper
+#include "GRRLIB_fbSimple.h"   // Render to framebuffer: Simple primitives
+#include "GRRLIB_handle.h"     // Texture handle manipulation
+#include "GRRLIB_pixel.h"      // Pixel manipulation
+#include "GRRLIB_settings.h"   // GRRLIB Settings
+#include "GRRLIB_texSetup.h"   // Setup for textures
 
 #endif // __GRRLIB_FNINLINE_H__
 /** @} */ // end of group

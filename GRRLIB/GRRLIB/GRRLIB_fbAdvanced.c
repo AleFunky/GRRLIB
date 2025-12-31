@@ -24,6 +24,10 @@ THE SOFTWARE.
 
 #include <grrlib.h>
 
+void GRRLIB_FillScreen (const u32 color) {
+    GRRLIB_Rectangle(-40.0f, -40.0f, 1280.0f,  GRRLIB_Settings.height + 80.0f, color, true);
+}
+
 /**
  * Draw an ellipse.
  * @author Dark_Link
