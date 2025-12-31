@@ -31,7 +31,11 @@ extern GRRLIB_drawSettings GRRLIB_Settings;
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f,  rmode->efbHeight + 80.0f, color, true);
+    f32 aspect = (CONF_GetAspectRatio() == CONF_ASPECT_16_9) ? (16.0f/9.0f) : (4.0f/3.0f);
+    f32 screen_aspect = (f32)rmode->fbWidth / (f32)rmode->efbHeight;
+    f32 hscale = aspect / screen_aspect;
+
+    GRRLIB_Rectangle(-40.0f, -40.0f, (rmode->fbWidth * hscale) + 80.0f,  rmode->efbHeight + 80.0f, color, true);
 }
 
 /**
