@@ -31,7 +31,7 @@ extern GRRLIB_drawSettings GRRLIB_Settings;
  */
 INLINE
 void  GRRLIB_FillScreen (const u32 color) {
-    GRRLIB_Rectangle(-40.0f, -40.0f, GRRLIB_Settings.width + 80.0f,  GRRLIB_Settings.height + 80.0f, color, true);
+    GRRLIB_Rectangle(-40.0f, -40.0f, rmode->fbWidth + 80.0f,  rmode->efbHeight + 80.0f, color, true);
 }
 
 /**
