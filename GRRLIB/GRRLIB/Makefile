@@ -13,14 +13,14 @@ include $(DEVKITPRO)/libogc2/gamecube_rules
 MACHDEP		+=	-DHW_DOL
 
 # Installation directory
-DESTDIR	:=	$(PORTLIBS_PATH)/gamecube
+DESTDIR	:=	$(DEVKITPRO)/libogc2/gamecube
 else
 include $(DEVKITPRO)/libogc2/wii_rules
 
 MACHDEP		+=	-DHW_RVL
 
 # Installation directory
-DESTDIR	:=	$(PORTLIBS_PATH)/wii
+DESTDIR	:=	$(DEVKITPRO)/libogc2/wii
 endif
 
 #---------------------------------------------------------------------------------
